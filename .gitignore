@@ -1,0 +1,11 @@
+# Local Terraform state and credentials — never commit these
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+crash.log
+crash.*.log
+*.tfplan
+
+# Note: .terraform.lock.hcl is intentionally NOT ignored — commit it
+# for reproducible provider version resolution.

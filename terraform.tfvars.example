@@ -1,0 +1,35 @@
+# Copy this file to terraform.tfvars and fill in real values.
+# terraform.tfvars is gitignored — never commit live credentials.
+#
+# Cribl auth is NOT set here — it's environment variables only.
+# See README.md "Authenticating" / provider.tf for exactly what to export
+# before running terraform, for whichever target on_prem below selects.
+
+on_prem = true # true = local/Docker Cribl Stream; false = Cribl.Cloud
+
+worker_group_id     = "cg-intake-hipaa-demo"
+worker_group_region = "us-east-1" # ignored when on_prem = true
+syslog_port         = 9021
+
+aws_bucket_name = "your-s3-bucket-name"
+aws_region      = "us-east-1"
+aws_api_key     = "your-aws-access-key-id"
+aws_secret_key  = "your-aws-secret-access-key"
+
+# Optional — leave blank to use SSE-S3 (AES256) instead of a customer-managed key
+kms_key_id = ""
+
+# OpenTelemetry ingest — generate any random string for the bearer token,
+# e.g. `openssl rand -hex 32`
+otel_port         = 4317
+otel_protocol     = "grpc"
+otel_bearer_token = "generate-a-random-secret-here"
+
+# OpenTelemetry export — point this at a real OTLP receiver, e.g.:
+#   Grafana Cloud: https://otlp-gateway-<region>.grafana.net/otlp
+#   Honeycomb:     https://api.honeycomb.io
+#   Local collector: http://localhost:4317
+otel_destination_endpoint     = "https://your-otlp-backend.example.com"
+otel_destination_protocol     = "grpc"
+otel_destination_header_name  = "Authorization"
+otel_destination_header_value = "Basic your-base64-credentials"
