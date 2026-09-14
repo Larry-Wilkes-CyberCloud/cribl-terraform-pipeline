@@ -16,6 +16,8 @@ Terraform provider. Runs against either target via one `on_prem` variable:
 a local/Docker Cribl Stream instance (the default — see "Why on-prem by
 default" below) or a Cribl.Cloud organization.
 
+Part of a three-repo GRC pipeline-assurance trio: [`pipeline-assurance-monitor`](https://github.com/Larry-Wilkes-CyberCloud/pipeline-assurance-monitor) continuously proves this pipeline's masking rules still preserve the raw-text evidence [`splunk-terraform-detections`](https://github.com/Larry-Wilkes-CyberCloud/splunk-terraform-detections)' NIST 800-53-mapped searches (AC-7, AC-6(9)) depend on, by sending synthetic canary events through this real, live deployment and asserting the output still contains what each detection needs.
+
 ### Why on-prem by default
 
 This started as a Cribl.Cloud project. My Cribl.Cloud org is a free Sandbox
