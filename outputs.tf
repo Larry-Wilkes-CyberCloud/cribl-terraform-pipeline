@@ -1,6 +1,6 @@
 output "worker_group_id" {
-  description = "ID of the Worker Group created by this project."
-  value       = criblio_group.intake.id
+  description = "Cribl group ID resources are provisioned into (the standalone instance's built-in \"default\" group -- see main.tf's top-of-file note)."
+  value       = var.worker_group_id
 }
 
 output "syslog_listener" {
@@ -31,4 +31,9 @@ output "otel_export_endpoint" {
 output "deployed_config_version" {
   description = "Config version deployed to the Worker Group by this apply."
   value       = data.criblio_config_version.latest.items[0]
+}
+
+output "assurance_check_output_dir" {
+  description = "Local directory pipeline-assurance-monitor's check_dependencies.py should poll for canary output."
+  value       = var.assurance_check_dest_path
 }

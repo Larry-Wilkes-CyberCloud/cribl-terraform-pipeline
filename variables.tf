@@ -18,8 +18,8 @@ variable "on_prem" {
 
 variable "worker_group_id" {
   type        = string
-  description = "ID for the new Worker Group this project creates. Must not already exist in your deployment."
-  default     = "cg-intake-hipaa-demo"
+  description = "Cribl group ID all resources are provisioned into. Default \"default\" targets a standalone (single-instance, non-distributed) Cribl Stream deployment's built-in group, which always exists and needs no Worker Node -- see main.tf's top-of-file note for why this project stopped managing its own custom Worker Group. Only change this if you're targeting a real distributed deployment with a Worker Node already joined to the named group."
+  default     = "default"
 }
 
 variable "worker_group_region" {
@@ -107,4 +107,26 @@ variable "otel_destination_header_value" {
   description = "Value for otel_destination_header_name (e.g. \"Basic <base64 instanceID:apiKey>\" for Grafana Cloud, or a raw API key for Honeycomb)."
   sensitive   = true
   default     = ""
+}
+
+# ---------------------------------------------------------------------------
+# pipeline-assurance-monitor's canary-check destination
+# ---------------------------------------------------------------------------
+
+variable "assurance_check_dest_path" {
+  type        = string
+  description = "Local directory the assurance-check Filesystem Destination writes canary output JSON files to. check_dependencies.py in the pipeline-assurance-monitor repo reads from this same path -- keep them in sync."
+  default     = "/tmp/pipeline-assurance-monitor-output"
+}
+
+variable "assurance_check_stage_path" {
+  type        = string
+  description = "Staging directory the Filesystem Destination buffers to before rolling files into assurance_check_dest_path."
+  default     = "/tmp/pipeline-assurance-monitor-output/_staging"
+}
+
+variable "enable_ip_redaction_demo" {
+  type        = bool
+  description = "Drift-detection demo toggle (default false = normal, working pipeline). Set true and terraform apply to add a realistic-looking IPv4-redaction eval to the masking Pipeline that silently breaks AC-7/AC-7-followup's src_ip dependency -- proving pipeline-assurance-monitor's check_dependencies.py actually catches drift, not just that it can pass. Set back to false and re-apply to restore the working baseline."
+  default     = false
 }
